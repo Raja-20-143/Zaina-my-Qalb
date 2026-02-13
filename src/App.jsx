@@ -19,8 +19,19 @@ function App() {
   const photos = [
     "/love/1.jpg",
     "/love/2.jpg",
-    "/love/me.jpg",
-    "/love/you.jpg"
+    "/love/3.jpg",
+    "/love/4.jpg",
+    "/love/5.jpg",
+    "/love/6.jpg",
+    "/love/7.jpg",
+    "/love/8.jpg",
+    "/love/9.jpg",
+    "/love/10.jpg",
+    "/love/11.jpg",
+    "/love/12.jpg",
+    "/love/13.jpg",
+    "/love/14.jpg",
+    "/love/15.jpg"
   ];
 
   // Slideshow only on page 3
