@@ -31,7 +31,20 @@ function App() {
     "/love/12.jpg",
     "/love/13.jpg",
     "/love/14.jpg",
-    "/love/15.jpg"
+    "/love/15.jpg",
+    "/love/16.jpg",
+    "/love/17.jpg",
+    "/love/18.jpg",
+    "/love/19.jpg",
+    "/love/20.jpg",
+    "/love/21.jpg",
+    "/love/22.jpg",
+    "/love/23.jpg",
+    "/love/24.jpg",
+    "/love/25.jpg",
+    "/love/26.jpg",
+    "/love/27.jpg",
+    "/love/28.jpg"
   ];
 
   // Slideshow only on page 3
