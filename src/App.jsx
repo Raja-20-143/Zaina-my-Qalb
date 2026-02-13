@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import "./App.css";
@@ -11,11 +12,7 @@ function App() {
 
   // 🎵 YOUR SONG LIST (public/ours folder)
   const ours = [
-    "/ours/adada.mp3",
-    "/ours/kurumugil.mp3",
-    "/ours/kuthithaney.mp3",
-    "/ours/poongatre.mp3",
-    "/ours/thuli.mp3"
+    "/ours/adada.mp3"
   ];
 
   // 📸 YOUR PHOTOS (public/love folder)
