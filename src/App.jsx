@@ -44,7 +44,6 @@ function App() {
     "/love/24.jpg",
     "/love/25.jpg",
     "/love/26.jpg",
-    "/love/27.jpg",
     "/love/28.jpg"
   ];
 
