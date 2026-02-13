@@ -1,0 +1,125 @@
+import { useState, useEffect, useRef } from "react";
+import confetti from "canvas-confetti";
+import "./App.css";
+
+function App() {
+  const [page, setPage] = useState(1); // 1=proposal, 2=ring, 3=slideshow
+  const [currentPhoto, setCurrentPhoto] = useState(0);
+  const [currentSong, setCurrentSong] = useState(0);
+
+  const audioRef = useRef(null);
+
+  // 🎵 YOUR SONG LIST (public/ours folder)
+  const ours = [
+    "/ours/adada.mp3",
+    "/ours/kurumugil.mp3",
+    "/ours/kuthithaney.mp3",
+    "/ours/poongatre.mp3",
+    "/ours/thuli.mp3"
+  ];
+
+  // 📸 YOUR PHOTOS (public/love folder)
+  const photos = [
+    "/love/1.jpg",
+    "/love/2.jpg",
+    "/love/me.jpg",
+    "/love/you.jpg"
+  ];
+
+  // Slideshow only on page 3
+  useEffect(() => {
+    if (page === 3) {
+      const interval = setInterval(() => {
+        setCurrentPhoto((prev) => (prev + 1) % photos.length);
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [page]);
+
+  const handleYes = () => {
+    setPage(2);
+
+    // Play music
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    }, 300);
+  };
+
+  const handleNext = () => {
+    setPage(3);
+  };
+
+  const handleSongEnd = () => {
+    setCurrentSong((prev) => (prev + 1) % ours.length);
+  };
+
+  const moveNoButton = (e) => {
+    const button = e.target;
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+
+    button.style.position = "absolute";
+    button.style.left = `${x}px`;
+    button.style.top = `${y}px`;
+  };
+
+  return (
+    <div className="container">
+      {/* 🎵 Audio */}
+      <audio
+        ref={audioRef}
+        src={ours[currentSong]}
+        onEnded={handleSongEnd}
+      />
+
+      {/* PAGE 1 — Proposal */}
+      {page === 1 && (
+        <>
+          <h3>From RAJA ❤️</h3>
+          <h1>ZAINA, Will you be my wife? 💍</h1>
+          <h2>I’m ready for you my butterfly 🦋</h2>
+
+          <div className="buttons">
+            <button className="yes" onClick={handleYes}>
+              YES ❤️
+            </button>
+
+            <button className="no" onMouseOver={moveNoButton}>
+              NO 🙈
+            </button>
+          </div>
+        </>
+      )}
+
+      {/* PAGE 2 — Ring Page */}
+      {page === 2 && (
+        <div className="success">
+          <h1>RAJA ❤️ ZAINA</h1>
+          <h2 className="ring">Forever Starts Now 💍</h2>
+
+          <button className="nextBtn" onClick={handleNext}>
+            Next ➜
+          </button>
+        </div>
+      )}
+
+      {/* PAGE 3 — Slideshow */}
+      {page === 3 && (
+        <div className="slideshowPage">
+          <h1>Our Beautiful Memories ❤️</h1>
+
+          <img
+            src={photos[currentPhoto]}
+            alt="memory"
+            className="slideshow"
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
