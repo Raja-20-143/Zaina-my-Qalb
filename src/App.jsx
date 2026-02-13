@@ -4,7 +4,9 @@ import confetti from "canvas-confetti";
 import "./App.css";
 
 function App() {
-  const [page, setPage] = useState(1); // 1=proposal, 2=ring, 3=slideshow
+  const [page, setPage] = useState(1); 
+  // 1=proposal, 2=ring, 3=surprise text, 4=slideshow
+
   const [currentPhoto, setCurrentPhoto] = useState(0);
   const [currentSong, setCurrentSong] = useState(0);
 
@@ -47,9 +49,9 @@ function App() {
     "/love/28.jpg"
   ];
 
-  // Slideshow only on page 3
+  // Slideshow only on page 4
   useEffect(() => {
-    if (page === 3) {
+    if (page === 4) {
       const interval = setInterval(() => {
         setCurrentPhoto((prev) => (prev + 1) % photos.length);
       }, 3000);
@@ -61,7 +63,6 @@ function App() {
   const handleYes = () => {
     setPage(2);
 
-    // Play music
     setTimeout(() => {
       if (audioRef.current) {
         audioRef.current.play();
@@ -69,8 +70,12 @@ function App() {
     }, 300);
   };
 
-  const handleNext = () => {
+  const handleNextToSurprise = () => {
     setPage(3);
+  };
+
+  const handleNextToSlideshow = () => {
+    setPage(4);
   };
 
   const handleSongEnd = () => {
@@ -89,6 +94,7 @@ function App() {
 
   return (
     <div className="container">
+      
       {/* 🎵 Audio */}
       <audio
         ref={audioRef}
@@ -121,14 +127,26 @@ function App() {
           <h1>RAJA ❤️ ZAINA</h1>
           <h2 className="ring">Forever Starts Now 💍</h2>
 
-          <button className="nextBtn" onClick={handleNext}>
+          <button className="nextBtn" onClick={handleNextToSurprise}>
             Next ➜
           </button>
         </div>
       )}
 
-      {/* PAGE 3 — Slideshow */}
+      {/* PAGE 3 — Surprise Text */}
       {page === 3 && (
+        <div className="success">
+          <h1>You have surprise 🎁</h1>
+          <h2>Click next ❤️</h2>
+
+          <button className="nextBtn" onClick={handleNextToSlideshow}>
+            Next ➜
+          </button>
+        </div>
+      )}
+
+      {/* PAGE 4 — Slideshow */}
+      {page === 4 && (
         <div className="slideshowPage">
           <h1>Our Beautiful Memories ❤️</h1>
 
@@ -139,6 +157,7 @@ function App() {
           />
         </div>
       )}
+
     </div>
   );
 }
