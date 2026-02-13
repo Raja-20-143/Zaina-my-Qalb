@@ -1,23 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
+import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import "./App.css";
 
 function App() {
-  const [page, setPage] = useState(1); 
-  // 1 = proposal
-  // 2 = ring
-  // 3 = surprise text
-  // 4 = slideshow
-
+  const [page, setPage] = useState(1); // 1=proposal, 2=ring, 3=slideshow
   const [currentPhoto, setCurrentPhoto] = useState(0);
+  const [currentSong, setCurrentSong] = useState(0);
+
   const audioRef = useRef(null);
 
-  // 🎵 SONGS
+  // 🎵 YOUR SONG LIST (public/ours folder)
   const ours = [
     "/ours/adada.mp3"
   ];
 
-  // 📸 PHOTOS (public/love folder)
+  // 📸 YOUR PHOTOS (public/love folder)
   const photos = [
     "/love/1.jpg",
     "/love/2.jpg",
@@ -26,69 +24,115 @@ function App() {
     "/love/5.jpg",
     "/love/6.jpg",
     "/love/7.jpg",
-    "/love/8.jpg"
+    "/love/8.jpg",
+    "/love/9.jpg",
+    "/love/10.jpg",
+    "/love/11.jpg",
+    "/love/12.jpg",
+    "/love/13.jpg",
+    "/love/14.jpg",
+    "/love/15.jpg",
+    "/love/16.jpg",
+    "/love/17.jpg",
+    "/love/17a.jpg",
+    "/love/18.jpg",
+    "/love/19.jpg",
+    "/love/20.jpg",
+    "/love/21.jpg",
+    "/love/22.jpg",
+    "/love/23.jpg",
+    "/love/24.jpg",
+    "/love/25.jpg",
+    "/love/26.jpg",
+
+    "/love/28.jpg"
   ];
 
-  // Slideshow auto change
+  // Slideshow only on page 3
   useEffect(() => {
-    if (page === 4) {
+    if (page === 3) {
       const interval = setInterval(() => {
-        setCurrentPhoto((prev) =>
-          prev === photos.length - 1 ? 0 : prev + 1
-        );
+        setCurrentPhoto((prev) => (prev + 1) % photos.length);
       }, 3000);
 
       return () => clearInterval(interval);
     }
   }, [page]);
 
-  const handleNext = () => {
-    setPage(page + 1);
+  const handleYes = () => {
+    setPage(2);
+
+    // Play music
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    }, 300);
   };
 
-  const startConfetti = () => {
-    confetti({
-      particleCount: 200,
-      spread: 100,
-    });
+  const handleNext = () => {
+    setPage(3);
+  };
+
+  const handleSongEnd = () => {
+    setCurrentSong((prev) => (prev + 1) % ours.length);
+  };
+
+  const moveNoButton = (e) => {
+    const button = e.target;
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+
+    button.style.position = "absolute";
+    button.style.left = `${x}px`;
+    button.style.top = `${y}px`;
   };
 
   return (
     <div className="container">
+      {/* 🎵 Audio */}
+      <audio
+        ref={audioRef}
+        src={ours[currentSong]}
+        onEnded={handleSongEnd}
+      />
 
-      {/* PAGE 1 */}
+      {/* PAGE 1 — Proposal */}
       {page === 1 && (
-        <div className="page">
-          <h1>Will You Be Mine? ❤️</h1>
-          <button onClick={() => setPage(2)}>Yes 💍</button>
-        </div>
+        <>
+          <h3>From RAJA ❤️</h3>
+          <h1>ZAINA, Will you be my wife? 💍</h1>
+          <h2>I’m ready for you my butterfly 🦋</h2>
+
+          <div className="buttons">
+            <button className="yes" onClick={handleYes}>
+              YES ❤️
+            </button>
+
+            <button className="no" onMouseOver={moveNoButton}>
+              NO 🙈
+            </button>
+          </div>
+        </>
       )}
 
-      {/* PAGE 2 */}
+      {/* PAGE 2 — Ring Page */}
       {page === 2 && (
-        <div className="page">
-          <h1>She Said Yes! 💖</h1>
-          <button onClick={() => {
-            startConfetti();
-            setPage(3);
-          }}>
-            Next
+        <div className="success">
+          <h1>RAJA ❤️ ZAINA</h1>
+          <h2 className="ring">Forever Starts Now 💍</h2>
+
+          <button className="nextBtn" onClick={handleNext}>
+            Next ➜
           </button>
         </div>
       )}
 
-      {/* PAGE 3 */}
+      {/* PAGE 3 — Slideshow */}
       {page === 3 && (
-        <div className="page">
-          <h1>If you want surprise click next 🎁</h1>
-          <button onClick={handleNext}>Next</button>
-        </div>
-      )}
+        <div className="slideshowPage">
+          <h1>Our Beautiful Memories ❤️</h1>
 
-      {/* PAGE 4 - SLIDESHOW */}
-      {page === 4 && (
-        <div className="page">
-          <h1>Our Beautiful Memories 💕</h1>
           <img
             src={photos[currentPhoto]}
             alt="memory"
@@ -96,8 +140,6 @@ function App() {
           />
         </div>
       )}
-
-      <audio ref={audioRef} src={ours[0]} autoPlay loop />
     </div>
   );
 }
